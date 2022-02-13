@@ -42,10 +42,10 @@ struct BMP_Header{
 
 /*
                                                                     DIB Header
-     ____________________________________________________________________________________________________________________________________________________
-    |  Offset   Offset    Size           Windows BITMAPINFOHEADER                                                                                       |
-    |  (hex)    (dec)    (bytes)                                                                                                                        |
-    |                                                                                                                                                   |
+     ________________________________________________________________________________________________________________________________________________
+    |  Offset   Offset    Size           Windows BITMAPINFOHEADER                                                                                   |
+    |  (hex)    (dec)    (bytes)                                                                                                                    |
+    |                                                                                                                                               |
     | 0E 	    14 	       4 	    the size of this header, in bytes (40)                                                                              |
     | 12 	    18 	       4 	    the bitmap width in pixels (signed integer)                                                                         |
     | 16 	    22 	       4 	    the bitmap height in pixels (signed integer)                                                                        |
@@ -57,23 +57,23 @@ struct BMP_Header{
     | 2A 	    42 	       4 	    the vertical resolution of the image. (pixel per metre, signed integer)                                             |
     | 2E 	    46 	       4 	    the number of colors in the color palette, or 0 to default to 2n                                                    |
     | 32 	    50 	       4 	    the number of important colors used, or 0 when every color is important; generally ignored                          |
-    I___________________________________________________________________________________________________________________________________________________I
+    I_______________________________________________________________________________________________________________________________________________I
 
 
 
                                                                    Offset 30 table
      _____________________________________________________________________________________________________________________________________________                                
     |  Value   Identified by           Compression Method                        Comments                                                        |
-    |    0 	    BI_RGB 	                    none 	                        Most common                                                          |
-    |    1 	    BI_RLE8 	                RLE 8-bit/pixel 	            Can be used only with 8-bit/pixel bitmaps                            |
-    |    2 	    BI_RLE4 	                RLE 4-bit/pixel 	            Can be used only with 4-bit/pixel bitmaps                            |
-    |    3 	    BI_BITFIELDS 	            OS22XBITMAPHEADER: Huffman 1D 	BITMAPV2INFOHEADER: RGB bit field masks, BITMAPV3INFOHEADER+: RGBA   |
-    |    4 	    BI_JPEG 	                OS22XBITMAPHEADER: RLE-24 	    BITMAPV4INFOHEADER+: JPEG image for printing                         |
-    |    5 	    BI_PNG 		                                                BITMAPV4INFOHEADER+: PNG image for printing                          |
-    |    6 	    BI_ALPHABITFIELDS 	        RGBA bit field masks 	        only Windows CE 5.0 with .NET 4.0 or later                           |
-    |    11 	    BI_CMYK 	                none 	                    only Windows Metafile CMYK                                           |
-    |    12 	    BI_CMYKRLE8 	            RLE-8 	                    only Windows Metafile CMYK                                           |
-    |    13 	    BI_CMYKRLE4 	            RLE-4 	                    only Windows Metafile CMYK                                           |
+    |    0 	    BI_RGB 	                    none 	                        Most common                                                            |
+    |    1 	    BI_RLE8 	                RLE 8-bit/pixel 	            Can be used only with 8-bit/pixel bitmaps                                |
+    |    2 	    BI_RLE4 	                RLE 4-bit/pixel 	            Can be used only with 4-bit/pixel bitmaps                                |
+    |    3 	    BI_BITFIELDS 	            OS22XBITMAPHEADER: Huffman 1D 	BITMAPV2INFOHEADER: RGB bit field masks, BITMAPV3INFOHEADER+: RGBA     |
+    |    4 	    BI_JPEG 	                OS22XBITMAPHEADER: RLE-24 	    BITMAPV4INFOHEADER+: JPEG image for printing                           |
+    |    5 	    BI_PNG 		                                                BITMAPV4INFOHEADER+: PNG image for printing                            |
+    |    6 	    BI_ALPHABITFIELDS 	        RGBA bit field masks 	        only Windows CE 5.0 with .NET 4.0 or later                             |
+    |    11 	    BI_CMYK 	                none 	                    only Windows Metafile CMYK                                                 |
+    |    12 	    BI_CMYKRLE8 	            RLE-8 	                    only Windows Metafile CMYK                                               |
+    |    13 	    BI_CMYKRLE4 	            RLE-4 	                    only Windows Metafile CMYK                                               |
     I____________________________________________________________________________________________________________________________________________I
 
 */
