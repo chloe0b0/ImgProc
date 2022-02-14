@@ -7,6 +7,7 @@ struct BGR{ unsigned char blue, green, red; };
 // Image structure which will be used across the entire project
 struct Image{
     struct BGR **bgr; // two dimensional structure
+    unsigned int width, height; // dimensions of the image
 };
 
 #endif
