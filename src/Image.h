@@ -1,6 +1,7 @@
 #ifndef IMAGE_H
 #define IMAGE_H
 
+#include <stdlib.h>
 // Structure to encode the Blue Green Red format (used in BMP)
 struct BGR{ unsigned char blue, green, red; };
 
