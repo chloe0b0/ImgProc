@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include "Image.h"
 
 /*
                                                                            Wikipedia
@@ -89,6 +90,10 @@ struct DIB_Header{
 
 void OpenBMP(const char* Path){
     FILE* fp = fopen(Path, "rb");
+    if (!fp){
+        fprintf(stderr, "Could not open file");
+        return;
+    }
 
     struct BMP_Header file_header;
     struct DIB_Header dib_header;
@@ -104,6 +109,11 @@ void OpenBMP(const char* Path){
     fread(&dib_header, sizeof(struct DIB_Header), 1, fp);
     printf("Width: %d, Height: %d\n", dib_header.width, dib_header.height);
     printf("Compression Id: %d\n", dib_header.compression_method);
+
+    struct Image img;
+
+    // Get to the Image Data
+    fseek(fp, file_header.PixelArrayOffset, SEEK_SET);
 
     fclose(fp);
 }
