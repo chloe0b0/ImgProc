@@ -138,4 +138,8 @@ void OpenBMP(const char* Path){
 }
 
 int main(void){
+    char buff[100];
+    printf("Enter the BMP filepath: ");
+    scanf("%s", buff);
+    OpenBMP(buff);
 }
