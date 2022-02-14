@@ -100,10 +100,10 @@ struct Image LoadBMP(FILE* fp, unsigned int width, unsigned int height){
     img.width = width;
     img.height = height;
 
-    img.brg = (struct BRG**)malloc(height * sizeof(void*));
+    img.bgr = (struct BRG**)malloc(height * sizeof(void*));
     for (int i = height - 1; i >= 0; --i){
-        img.brg[i] = (struct BRG*)malloc(width * sizeof(struct BRG));
-        fread(img.brg[i], width, sizeof(struct BRG), fp);
+        img.bgr[i] = (struct BRG*)malloc(width * sizeof(struct BGR));
+        fread(img.bgr[i], width, sizeof(struct BGR), fp);
     }
 
     return img;
@@ -123,7 +123,7 @@ void WriteBMPImage(struct Image img, struct BMP_Header bmp_header, struct DIB_He
 
     // Write Image Data
     for (int i = 0; i < img.height; ++i){
-        fwrite(img.brg[i], sizeof(struct BRG), 1, fp);
+        fwrite(img.bgr[i], sizeof(struct BGR), 1, fp);
     }
 
     fclose(fp);
