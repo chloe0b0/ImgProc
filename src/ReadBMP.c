@@ -97,7 +97,7 @@ struct Image LoadBMP(FILE* fp, unsigned int width, unsigned int height){
 
     img.bgr = (struct BGR**)malloc(height * sizeof(void*));
     for (int i = height - 1; i != 0; --i){
-        img.bgr[i] = (struct BGR**)malloc(width * sizeof(struct BGR));
+        img.bgr[i] = (struct BGR*)malloc(width * sizeof(struct BGR));
         fread(img.bgr[i], width, sizeof(struct BGR), fp);
     }
 
@@ -132,6 +132,7 @@ void OpenBMP(const char* Path){
     fseek(fp, file_header.PixelArrayOffset, SEEK_SET);
     img = LoadBMP(fp, dib_header.width, dib_header.height);
 
+    FreeImage(img);
     fclose(fp);
 }
 
