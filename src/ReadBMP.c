@@ -87,6 +87,7 @@ struct DIB_Header{
     unsigned short int BitsPerPixel; // Number of bits per pixel (color depth)
     unsigned int compression_method; 
     unsigned int image_size;
+
     unsigned int horizontal_resolution;
     unsigned int vertical_resolution;
     unsigned int color_pallete;
@@ -100,9 +101,9 @@ struct Image LoadBMP(FILE* fp, unsigned int width, unsigned int height){
     img.width = width;
     img.height = height;
 
-    img.bgr = (struct BRG**)malloc(height * sizeof(void*));
-    for (int i = height - 1; i >= 0; --i){
-        img.bgr[i] = (struct BRG*)malloc(width * sizeof(struct BGR));
+    img.bgr = (struct BGR**)malloc(height * sizeof(void*));
+    for (int i = height - 1; i >= 0; i--){
+        img.bgr[i] = (struct BGR*)malloc(width * sizeof(struct BGR));
         fread(img.bgr[i], width, sizeof(struct BGR), fp);
     }
 
@@ -122,8 +123,8 @@ void WriteBMPImage(struct Image img, struct BMP_Header bmp_header, struct DIB_He
     fwrite(&dib_header, sizeof(struct DIB_Header), 1, fp);
 
     // Write Image Data
-    for (int i = 0; i < img.height; ++i){
-        fwrite(img.bgr[i], sizeof(struct BGR), 1, fp);
+    for (int i = img.height; i >= 0; i--){
+        fwrite(img.bgr[i], img.width, sizeof(struct BGR), fp);
     }
 
     fclose(fp);

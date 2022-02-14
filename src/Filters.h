@@ -17,6 +17,7 @@ unsigned char WeightedGrayScale(struct BGR bgr, float rw, float gw, float bw){
 void GrayScaleImage(struct Image img){
     for (int i = 0; i < img.height; ++i){
         for (int j = 0; j < img.width; ++j){
+            img.bgr[i][j].blue = img.bgr[i][j].green = img.bgr[i][j].red = GrayScale(img.bgr[i][j]);
         }
     }
 }
