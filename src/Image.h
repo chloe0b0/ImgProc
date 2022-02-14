@@ -10,4 +10,13 @@ struct Image{
     unsigned int width, height; // dimensions of the image
 };
 
+// Free an Image struct from memory
+void FreeImage(struct Image img){
+    for (int i = 0; i < img.height; ++i){
+        free(img.bgr[i]);
+    }
+
+    free(img.bgr);
+}
+
 #endif

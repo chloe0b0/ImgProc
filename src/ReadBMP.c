@@ -88,6 +88,22 @@ struct DIB_Header{
     unsigned int image_size;
 };
 
+// load bmp image into an Image struct
+struct Image LoadBMP(FILE* fp, unsigned int width, unsigned int height){
+    struct Image img;
+    
+    img.width = width;
+    img.height = height;
+
+    img.bgr = (struct BGR**)malloc(height * sizeof(void*));
+    for (int i = height - 1; i != 0; --i){
+        img.bgr[i] = (struct BGR**)malloc(width * sizeof(struct BGR));
+        fread(img.bgr[i], width, sizeof(struct BGR), fp);
+    }
+
+    return img;
+}
+
 void OpenBMP(const char* Path){
     FILE* fp = fopen(Path, "rb");
     if (!fp){
@@ -114,6 +130,7 @@ void OpenBMP(const char* Path){
 
     // Get to the Image Data
     fseek(fp, file_header.PixelArrayOffset, SEEK_SET);
+    img = LoadBMP(fp, dib_header.width, dib_header.height);
 
     fclose(fp);
 }
