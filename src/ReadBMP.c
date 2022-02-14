@@ -138,4 +138,5 @@ void OpenBMP(const char* Path){
 }
 
 int main(void){
+    OpenBMP("feels-strong-man.bmp");
 }
