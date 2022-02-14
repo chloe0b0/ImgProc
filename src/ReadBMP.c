@@ -123,7 +123,7 @@ void WriteBMPImage(struct Image img, struct BMP_Header bmp_header, struct DIB_He
     fwrite(&dib_header, sizeof(struct DIB_Header), 1, fp);
 
     // Write Image Data
-    for (int i = img.height; i >= 0; i--){
+    for (int i = img.height - 1; i >= 0; i--){
         fwrite(img.bgr[i], img.width, sizeof(struct BGR), fp);
     }
 
