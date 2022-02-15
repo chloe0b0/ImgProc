@@ -2,7 +2,7 @@ from PIL import Image
 import numpy as np
 import matplotlib.pyplot as plt
 
-image = Image.open(r"C:\ImgProc\src\feels-strong-man.bmp")
+image = Image.open(r"C:\ImgProc\src\0.bmp")
 i2 = Image.open(r"C:\ImgProc\src\grayscale.bmp")
 
 arr = np.array(image)

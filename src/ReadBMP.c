@@ -100,12 +100,12 @@ struct Image* LoadBMP(FILE* fp, int width, int height){
     
     img->width = width;
     img->height = height;
-
+ 
     img->rgb = (struct RGB**)malloc(height * sizeof(void*));
     for (int i = height - 1; i >= 0; i--){
         img->rgb[i] = (struct RGB*)malloc(width * sizeof(struct RGB));
-        fread(img->rgb[i], width-1, sizeof(struct RGB), fp);
-        //printf("%d %d %d\n", img->rgb[i]->red, img->rgb[i]->green, img->rgb[i]->blue);
+        fread(img->rgb[i], sizeof(struct RGB), width - 1, fp);
+        // printf("%d %d %d\n", img->rgb[i].red, img->rgb[i].green, img->rgb[i].blue);
     }
 
     return img;
@@ -113,7 +113,7 @@ struct Image* LoadBMP(FILE* fp, int width, int height){
 
 // write BMP image data to new file
 void WriteBMPImage(struct Image *img, struct BMP_Header bmp_header, struct DIB_Header dib_header, const char* path){
-    FILE* fp = fopen(path, "w");
+    FILE* fp = fopen(path, "wb");
     if (!fp){ fprintf(stderr, "Could not open file!\n"); return; }
 
     // Write the BMP Header to the file
@@ -125,7 +125,7 @@ void WriteBMPImage(struct Image *img, struct BMP_Header bmp_header, struct DIB_H
 
     // Write Image Data
     for (int i = img->height - 1; i >= 0; i--){
-        fwrite(img->rgb[i], img->width - 1, sizeof(struct RGB), fp);
+        fwrite(img->rgb[i], sizeof(struct RGB), img->width - 1, fp);
     }
 
     fclose(fp);
@@ -160,8 +160,8 @@ void OpenBMP(const char* Path){
 
     WriteBMPImage(img, file_header, dib_header, "grayscale.bmp");
 
-    fclose(fp);
     FreeImage(*img);
+    fclose(fp);
 }
 
 int main(void){

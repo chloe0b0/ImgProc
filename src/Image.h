@@ -3,7 +3,8 @@
 
 #include <stdlib.h>
 // Structure to encode the Blue Green Red format (used in BMP 24 bit)
-struct RGB{ 
+// The 24-bit pixel (24bpp) format supports 16,777,216 distinct colors and stores 1 pixel value per 3 bytes. Each pixel value defines the red, green and blue samples of the pixel (8.8.8.0.0 in RGBAX notation). Specifically, in the order: blue, green and red (8 bits per each sample)
+struct RGB{
     unsigned char blue;
     unsigned char green; 
     unsigned char red;
