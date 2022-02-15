@@ -157,6 +157,7 @@ void OpenBMP(const char* Path){
     // Get to the Image Data
     fseek(fp, file_header.PixelArrayOffset, SEEK_SET);
     struct Image *img = LoadBMP(fp, dib_header.width, dib_header.height);
+    GrayScaleImage(img);
 
     WriteBMPImage(img, file_header, dib_header, "grayscale.bmp");
 

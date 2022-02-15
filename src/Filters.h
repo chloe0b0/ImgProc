@@ -14,10 +14,10 @@ unsigned char WeightedGrayScale(struct RGB rgb, float rw, float gw, float bw){
 }
 
 // Converts an Image struct to grayscale (in-place)
-void GrayScaleImage(struct Image img){
-    for (int i = 0; i < img.height; ++i){
-        for (int j = 0; j < img.width; ++j){
-            img.rgb[i][j].blue = img.rgb[i][j].green = img.rgb[i][j].red = GrayScale(img.rgb[i][j]);
+void GrayScaleImage(struct Image *img){
+    for (int i = 0; i < img->height; ++i){
+        for (int j = 0; j < img->width; ++j){
+            img->rgb[i][j].blue = img->rgb[i][j].green = img->rgb[i][j].red = GrayScale(img->rgb[i][j]);
         }
     }
 }
