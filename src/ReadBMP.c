@@ -37,7 +37,7 @@
 struct BMP_Header{
     char header_field[2]; // BM
     unsigned int size; // 4 bytes
-    int reserved; // Not needed
+    unsigned int reserved; // Not needed
     unsigned int PixelArrayOffset; // 4 byte offset indicating the start of the pixel array (img data)
 };
 
@@ -82,7 +82,7 @@ struct BMP_Header{
 
 struct DIB_Header{
     unsigned int size; // size of the header in bytes
-    unsigned int width, height; // width and height in pixels
+    int width, height; // width and height in pixels
     unsigned short int Planes; // Number of color planes (unsigned short int is 2 bytes)
     unsigned short int BitsPerPixel; // Number of bits per pixel (color depth)
     unsigned int compression_method; 
@@ -95,23 +95,24 @@ struct DIB_Header{
 };
 
 // load bmp image into an Image struct
-struct Image LoadBMP(FILE* fp, unsigned int width, unsigned int height){
-    struct Image img;
+struct Image* LoadBMP(FILE* fp, int width, int height){
+    struct Image* img;
     
-    img.width = width;
-    img.height = height;
+    img->width = width;
+    img->height = height;
 
-    img.bgr = (struct BGR**)malloc(height * sizeof(void*));
+    img->rgb = (struct RGB**)malloc(height * sizeof(void*));
     for (int i = height - 1; i >= 0; i--){
-        img.bgr[i] = (struct BGR*)malloc(width * sizeof(struct BGR));
-        fread(img.bgr[i], width, sizeof(struct BGR), fp);
+        img->rgb[i] = (struct RGB*)malloc(width * sizeof(struct RGB));
+        fread(img->rgb[i], width-1, sizeof(struct RGB), fp);
+        //printf("%d %d %d\n", img->rgb[i]->red, img->rgb[i]->green, img->rgb[i]->blue);
     }
 
     return img;
 }
 
 // write BMP image data to new file
-void WriteBMPImage(struct Image img, struct BMP_Header bmp_header, struct DIB_Header dib_header, const char* path){
+void WriteBMPImage(struct Image *img, struct BMP_Header bmp_header, struct DIB_Header dib_header, const char* path){
     FILE* fp = fopen(path, "w");
     if (!fp){ fprintf(stderr, "Could not open file!\n"); return; }
 
@@ -123,8 +124,8 @@ void WriteBMPImage(struct Image img, struct BMP_Header bmp_header, struct DIB_He
     fwrite(&dib_header, sizeof(struct DIB_Header), 1, fp);
 
     // Write Image Data
-    for (int i = img.height - 1; i >= 0; i--){
-        fwrite(img.bgr[i], img.width, sizeof(struct BGR), fp);
+    for (int i = img->height - 1; i >= 0; i--){
+        fwrite(img->rgb[i], img->width - 1, sizeof(struct RGB), fp);
     }
 
     fclose(fp);
@@ -151,20 +152,20 @@ void OpenBMP(const char* Path){
     fread(&dib_header, sizeof(struct DIB_Header), 1, fp);
     printf("Width: %d, Height: %d\n", dib_header.width, dib_header.height);
     printf("Compression Id: %d\n", dib_header.compression_method);
-
-    struct Image img;
+    printf("Bits Per Pixel: %d\n", dib_header.BitsPerPixel);
 
     // Get to the Image Data
     fseek(fp, file_header.PixelArrayOffset, SEEK_SET);
-    img = LoadBMP(fp, dib_header.width, dib_header.height);
+    struct Image *img = LoadBMP(fp, dib_header.width, dib_header.height);
 
     WriteBMPImage(img, file_header, dib_header, "grayscale.bmp");
 
-    FreeImage(img);
     fclose(fp);
+    FreeImage(*img);
 }
 
 int main(void){
+    printf("Sizeof RGB: %d\n", sizeof(struct RGB)*8);
     char buff[100];
     printf("Enter the BMP filepath: ");
     scanf("%s", buff);
